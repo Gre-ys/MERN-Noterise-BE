@@ -28,6 +28,6 @@ mongoose
   .connect(process.env.MONGODB_URI)
   .then(() => {
     console.log("Connect To DB...");
-    app.listen(4000, () => console.log("Server Running In Port: 4000"));
+    app.listen(process.env.PORT || 4000, () => console.log("Server Running In Port: 4000"));
   })
   .catch((err) => console.log("Error: " + err));
