@@ -65,8 +65,12 @@ const googleOk = async (req, res) => {
   if (!req.user) return res.status(401).json({ error: "User Not Authenticated!" });
 
   // Create Token
-  const token = createToken(req.user);
-  res.status(200).json({ message: "Login With Google Success!", token });
+  try{
+	const token = await createToken(req.user);
+	res.status(200).json({ message: "Login With Google Success!", token });
+  }catch(error){
+	  res.status(400).json({error})
+  }
 };
 
 const logout = (req, res) => {
