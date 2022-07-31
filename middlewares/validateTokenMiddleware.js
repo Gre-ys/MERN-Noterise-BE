@@ -1,12 +1,12 @@
-const jwt = require("jsonwebtoken");
+const { verifyToken } = require("../helpers/manipulateToken");
 
-const validateToken = (req, res, next) => {
+const validateToken = async (req, res, next) => {
   const token = req.header("token");
 
   if (!token || token === undefined || token.length == 0) return res.status(401).json({ error: "User Not Authenticated!" });
 
   try {
-    const data = jwt.verify(token, process.env.SECRET_KEY);
+    const data = await verifyToken(token);
     req.user = data;
     return next();
   } catch (error) {

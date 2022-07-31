@@ -3,9 +3,11 @@ const { getNotes, getNotesByUser, getNotesById, createNote, updateNote, deleteNo
 const validateToken = require("../middlewares/validateTokenMiddleware");
 const validation = require("../middlewares/validationsMiddleware");
 const noteSchema = require("../validations/NoteValidation");
+const apicache = require("apicache");
+const cache = apicache.middleware;
 
 // Get All Notes
-router.get("/", validateToken, getNotes);
+router.get("/", [validateToken, cache("3 minutes")], getNotes);
 
 // Get Note By User
 router.get("/user", validateToken, getNotesByUser);
