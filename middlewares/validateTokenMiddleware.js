@@ -6,7 +6,7 @@ const validateToken = async (req, res, next) => {
   if (!token || token === undefined || token.length == 0) return res.status(401).json({ error: "User Not Authenticated!" });
 
   try {
-    const data = await verifyToken(token);
+    const data = verifyToken(token);
     req.user = data;
     return next();
   } catch (error) {
