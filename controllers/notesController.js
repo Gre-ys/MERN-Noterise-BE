@@ -97,6 +97,11 @@ const updateNote = async (req, res) => {
 
   // Update Note
   try {
+	  
+	  // Check Who Create Note
+	  const  noteExist = await Note.findById(id)
+	  if(noteExist.user_id !== req.user.id) return res.status(403).json({error: "Dont Have Authority To Manipulate This Note!"})
+	  
     const note = await Note.findByIdAndUpdate(id, { ...req.body, user_id: req.user.id });
 
     // If Note Not Found
@@ -115,9 +120,14 @@ const deleteNote = async (req, res) => {
   // Cek Note Id Valid
   if (!mongoose.Types.ObjectId.isValid(id)) return res.status(404).json({ error: "Note Not Found!" });
 
-  // Update Note
+  // Delete Note
   try {
-    const note = await Note.findByIdAndDelete(id);
+	  
+	// Check Who Create Note
+	const  noteExist = await Note.findById(id)
+	if(noteExist.user_id !== req.user.id) return res.status(403).json({error: "Dont Have Authority To Manipulate This Note!"})
+    
+	const note = await Note.findByIdAndDelete(id);
 
     // If Note Not Found
     if (!note || note == null || note.length == 0) return res.status(404).json({ error: "Note Not Found!" });
