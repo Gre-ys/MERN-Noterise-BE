@@ -94,7 +94,7 @@ const updateProfile = async(req, res) => {
     const hash = await bcrypt.hash(password, 10);
 	
     // Update User
-	const user = await User.findByIdAndUpdate(req.user.id, { ...req.body, email });
+	const user = await User.findByIdAndUpdate(req.user.id, { username, hash, email });
 
     return res.status(200).json({ message: "Profile Updated!" });
   } catch (error) {
