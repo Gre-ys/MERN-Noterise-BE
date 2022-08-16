@@ -1,27 +1,27 @@
 const router = require("express").Router();
 const { getNotes, getNotesByUser, getNotesById, createNote, updateNote, deleteNote } = require("../controllers/notesController");
-const validateToken = require("../middlewares/validateTokenMiddleware");
+const validateAuth = require("../middlewares/validateAuthMiddleware");
 const validation = require("../middlewares/validationsMiddleware");
 const noteSchema = require("../validations/NoteValidation");
 const apicache = require("apicache");
 const cache = apicache.middleware;
 
 // Get All Notes
-router.get("/", [validateToken, cache("3 minutes")], getNotes);
+router.get("/", [validateAuth, cache("3 minutes")], getNotes);
 
 // Get Note By User
-router.get("/user", validateToken, getNotesByUser);
+router.get("/user", validateAuth, getNotesByUser);
 
 // Get Note By Id
-router.get("/:id", validateToken, getNotesById);
+router.get("/:id", validateAuth, getNotesById);
 
 // Create Note
-router.post("/", [validateToken, validation(noteSchema)], createNote);
+router.post("/", [validateAuth, validation(noteSchema)], createNote);
 
 // Update Note
-router.patch("/:id", [validateToken, validation(noteSchema)], updateNote);
+router.patch("/:id", [validateAuth, validation(noteSchema)], updateNote);
 
 /// Delete Note
-router.delete("/:id", [validateToken], deleteNote);
+router.delete("/:id", [validateAuth], deleteNote);
 
 module.exports = router;

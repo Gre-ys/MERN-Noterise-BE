@@ -1,6 +1,7 @@
 const router = require("express").Router();
-const { register, login, googleOk, logout } = require("../controllers/authController");
+const { register, login, googleOk, logout, updateProfile } = require("../controllers/authController");
 const validation = require("../middlewares/validationsMiddleware");
+const validateAuth = require("../middlewares/validateAuthMiddleware")
 const { userRegisterSchema, userLoginSchema } = require("../validations/UserValidation");
 const passport = require("passport");
 
@@ -22,5 +23,8 @@ router.get("/google/ok", googleOk);
 
 // Logout
 router.get("/logout", logout);
+
+// Edit Profile
+router.patch("/profile", [validateAuth,validation(userLoginSchema)],updateProfile)
 
 module.exports = router;

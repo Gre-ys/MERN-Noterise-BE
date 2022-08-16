@@ -74,4 +74,32 @@ const logout = (req, res) => {
   });
 };
 
-module.exports = { register, login, googleOk, logout };
+const updateProfile = (req, res) => {
+	// Get Data For Profile
+	 const { username, password } = req.body;
+	 const findEmail = await User.findById(req.user.id)
+	 const email = findEmail.email;
+
+  try {
+    // Check If Username Has Already Used
+    const userExistUsername = await User.findOne({ username: username });
+    if (userExistUsername) return res.status(400).json({ error: "Username Already Used!" });
+
+  } catch (error) {
+    return res.status(400).send(error);
+  }
+
+  try {
+    // Hash Password
+    const hash = await bcrypt.hash(password, 10);
+	
+    // Update User
+	const user = await User.findByIdAndUpdate(req.user.id, { ...req.body, email });
+
+    return res.status(200).json({ message: "Profile Updated!" });
+  } catch (error) {
+    return res.status(400).json({ error: error });
+  }
+}
+
+module.exports = { register, login, googleOk, logout, updateProfile };

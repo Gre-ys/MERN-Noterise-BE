@@ -1,6 +1,6 @@
 const { verifyToken } = require("../helpers/manipulateToken");
 
-const validateToken = async (req, res, next) => {
+const validateAuth = async (req, res, next) => {
   if(req.user) return next()
 	
   const token = req.header("token");
@@ -16,4 +16,4 @@ const validateToken = async (req, res, next) => {
   }
 };
 
-module.exports = validateToken;
+module.exports = validateAuth;

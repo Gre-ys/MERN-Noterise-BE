@@ -15,7 +15,7 @@ passport.use(
       const user = await User.findOne({ email: profile.emails[0].value });
       console.log(user);
       if (user || user != null) return done(null, user);
-      const newUser = await User.create({ username: profile.displayName + profile.id, password: profile.id, email: profile.emails[0].value });
+      const newUser = await User.create({ username: profile.displayName+profile.email, password: profile.id, email: profile.emails[0].value });
       console.log(newUser);
       return done(null, newUser);
     }
