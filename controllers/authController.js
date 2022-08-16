@@ -74,7 +74,7 @@ const logout = (req, res) => {
   });
 };
 
-const updateProfile = (req, res) => {
+const updateProfile = async(req, res) => {
 	// Get Data For Profile
 	 const { username, password } = req.body;
 	 const findEmail = await User.findById(req.user.id)
